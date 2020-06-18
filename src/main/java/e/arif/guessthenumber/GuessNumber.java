@@ -34,6 +34,38 @@ public class GuessNumber {
     public int getMaxGuesses(){
         return this.maxGuess;
     }
+    public void incrementScore(){
+        score++;
+    }
+    public void decrementGuessCounter(){
+        guessCounter--;
+    }
+    public int getGuessCounter(){
+        return this.guessCounter;
+    }
+    public String getInitialMsg(){
+        String s = "Guess a number between " + lower + " and " + upper;
+        return s;
+    }
+    public String getScoreMsg(){
+        String s = "Your Score: " + score + " / " + gameCount;
+        return s;
+    }
+    public  String getAnswerMsg(){
+        String s = "The correct number is " + answer + ".\n" +
+                "Try RESET Button to PLAY again!";
+        return s;
+    }
+    public String getGuessLimitMsg(){
+        String s = "You have " + guessCounter + " guesses left";
+        return s;
+    }
+    public void isGameOver(){
+        gameOver = true;
+    }
+    public void isShownAnswer(){
+        showAnswer = true;
+    }
     public void setLimit(){
         int num = answer;
         if (num > 0 && num <250){
@@ -72,45 +104,5 @@ public class GuessNumber {
             this.lower = 4000;
             this.upper = 5000;
         }
-    }
-    public void incrementScore(){
-        score++;
-    }
-    public void decrementGuessCounter(){
-        guessCounter--;
-    }
-    public int getGuessCounter(){
-        return this.guessCounter;
-    }
-    public String getInitialMsg(){
-        String s = "Guess a number between " + lower + " and " + upper;
-        return s;
-    }
-    public String getScoreMsg(){
-        String s = "Your Score: " + score + " / " + gameCount;
-        return s;
-    }
-    public  String getAnswerMsg(){
-        String s = "The correct number is " + answer + ".\n" +
-                "Try RESET Button to PLAY again!";
-        return s;
-    }
-    public String getGuessLimitMsg(){
-        String s = "You have " + guessCounter + " guesses left";
-        return s;
-    }
-    public void isGameOver(){
-        gameOver = true;
-    }
-    public void isShownAnswer(){
-        showAnswer = true;
-    }
-    public static void main(String[] args) {
-        GuessNumber g = new GuessNumber();
-        System.out.println(g.answer);
-        System.out.println(g.guessCounter);
-        System.out.println(g.upper);
-        System.out.println(g.lower);
-        g.getInitialMsg();
     }
 }
