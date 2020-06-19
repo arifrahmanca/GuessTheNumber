@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     public void playButtonClicked(View view) {
         String inputNum = getInputOfTextField(R.id.inputNum);
         int limit = g.getMaxGuesses();
-//        counter++;
-//        g.decrementGuessCounter();
         int loopCount = 0;
         int num = -1;
         if (inputNum.isEmpty()){
