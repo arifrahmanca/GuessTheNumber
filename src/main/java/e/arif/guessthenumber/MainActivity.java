@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
     GuessNumber g;
     Message msg = new Message();
     int counter = 0;
+    int winClick = 0;
+    boolean win = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +45,26 @@ public class MainActivity extends AppCompatActivity {
         int loopCount = 0;
         int num = -1;
         if (inputNum.isEmpty()){
-            setContentsOfTextView(R.id.resultMsg, msg.getErrorNum());
+            setContentsOfTextView(R.id.resultMsg, msg.getErrorNumMsg());
         }
         else{
             num = Integer.parseInt(inputNum);
         }
 
         if (num < 0){
-            setContentsOfTextView(R.id.resultMsg, msg.getErrorNum());
+            setContentsOfTextView(R.id.resultMsg, msg.getErrorNumMsg());
         }
         else if (num < g.getLower() || num > g.getUpper()) {
-            setContentsOfTextView(R.id.resultMsg, msg.getErrorRange());
+            setContentsOfTextView(R.id.resultMsg, msg.getErrorRangeMsg());
         }
         else {
-            while (loopCount <= limit) {
+            while (loopCount <= limit && !g.gameOver) {
                 if (num == g.getAnswer()){
+                    winClick++;
+                    g.incrementScore();
+                    g.isGameOver();
                     setContentsOfTextView(R.id.resultMsg, msg.getWinningMsg());
-                    if (!g.gameOver) {
-                        g.incrementScore();
-                        g.isGameOver();
-                    }
+                    setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
                 }
                 else if (num < g.getAnswer()){
                     setContentsOfTextView(R.id.resultMsg, msg.getLowGuessMsg());
@@ -75,51 +77,59 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (g.showAnswer){
-            setContentsOfTextView(R.id.resultMsg, msg.getShowAnswerMsg());
             setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
-            g.isGameOver();
-        }
-
-        else if (counter > limit) {
-            if (!g.gameOver) {
-                setContentsOfTextView(R.id.resultMsg, msg.getMaxAttemptMsg());
-                g.isGameOver();
+            if (winClick > 1){
+                setContentsOfTextView(R.id.resultMsg, msg.getAlreadyWonMsg());
             }
             else {
+                setContentsOfTextView(R.id.resultMsg, msg.getShowAnswerMsg());
+            }
+        }
+        else if (winClick > 1){
+            setContentsOfTextView(R.id.resultMsg, msg.getAlreadyWonMsg());
+            setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
+        }
+        else if (counter > limit && winClick == 0){
+            setContentsOfTextView(R.id.resultMsg, msg.getMaxAttemptMsg());
+            setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
+        }
+        else {
+            if (g.getGuessCounter() == 1 && !g.gameOver && winClick == 0) {
+                setContentsOfTextView(R.id.limitMsg, msg.getLastGuessMsg());
+            }
+            else if (g.getGuessCounter() == 0 && !g.gameOver && winClick == 0) {
+                setContentsOfTextView(R.id.limitMsg, msg.getAllGuessesMsg());
+                setContentsOfTextView(R.id.resultMsg, msg.getMaxAttemptMsg());
+            }
+            else if (g.getGuessCounter() < 0) {
                 setContentsOfTextView(R.id.resultMsg, msg.getGameOverMsg());
                 setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
             }
-        }
-        else {
-            if (g.getGuessCounter() == 1) {
-                setContentsOfTextView(R.id.limitMsg, msg.getLastGuessMsg());
-            }
-            else if (g.getGuessCounter() <= 0) {
-                setContentsOfTextView(R.id.limitMsg, msg.getAllGuessesMsg());
-                setContentsOfTextView(R.id.resultMsg, msg.getGameOverMsg());
-            }
             else {
-                if (!g.showAnswer) {
+                if (!g.gameOver) {
                     setContentsOfTextView(R.id.limitMsg, g.getGuessLimitMsg());
                 }
             }
         }
-
         setContentsOfTextView(R.id.scoreMsg, g.getScoreMsg());
     }
 
     public void showAnswwerButtonClicked(View view) {
         g.isShownAnswer();
         g.isGameOver();
+        if (winClick == 1){
+            winClick++;
+        }
         setContentsOfTextView(R.id.showAnswer, g.getAnswerMsg());
-        setContentsOfTextView(R.id.resultMsg, msg.getEmptyMsg());
         setContentsOfTextView(R.id.scoreMsg, g.getScoreMsg());
         setContentsOfTextView(R.id.limitMsg, msg.getEmptyMsg());
+        setContentsOfTextView(R.id.resultMsg, msg.getGameOverMsg());
     }
 
     public void resetButtonClicked(View view) {
         g = new GuessNumber();
         counter = 0;
+        winClick = 0;
         setContentsOfTextView(R.id.iniMsg, g.getInitialMsg());
         setContentsOfTextView(R.id.resultMsg, msg.getEmptyMsg());
         setContentsOfTextView(R.id.showAnswer, msg.getEmptyMsg());
