@@ -99,7 +99,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@color/colorPrimary"
-        android:onClick="showAnswwerButtonClicked"
+        android:onClick="showAnswerButtonClicked"
         android:text="SHOW THE ANSWER"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
