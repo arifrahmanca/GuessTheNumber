@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
 
     GuessNumber g;
@@ -13,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     int counter = 0;
     int winClick = 0;
     boolean win = false;
+    Set<Integer> inputHistory = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void playButtonClicked(View view) {
         String inputNum = getInputOfTextField(R.id.inputNum);
-        counter++;
         int limit = g.getMaxGuesses();
-        g.decrementGuessCounter();
+//        counter++;
+//        g.decrementGuessCounter();
         int loopCount = 0;
         int num = -1;
         if (inputNum.isEmpty()){
@@ -57,7 +61,13 @@ public class MainActivity extends AppCompatActivity {
         else if (num < g.getLower() || num > g.getUpper()) {
             setContentsOfTextView(R.id.resultMsg, msg.getErrorRangeMsg());
         }
+        else if (inputHistory.contains(num)){
+            setContentsOfTextView(R.id.resultMsg, msg.getInputHistoryMsg());
+        }
         else {
+            counter++;
+            g.decrementGuessCounter();
+            inputHistory.add(num);
             while (loopCount <= limit && !g.gameOver) {
                 if (num == g.getAnswer()){
                     winClick++;
@@ -117,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public void showAnswwerButtonClicked(View view) {
         g.isShownAnswer();
         g.isGameOver();
+        inputHistory.clear();
         if (winClick == 1){
             winClick++;
         }
@@ -130,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         g = new GuessNumber();
         counter = 0;
         winClick = 0;
+        inputHistory.clear();
         setContentsOfTextView(R.id.iniMsg, g.getInitialMsg());
         setContentsOfTextView(R.id.resultMsg, msg.getEmptyMsg());
         setContentsOfTextView(R.id.showAnswer, msg.getEmptyMsg());
