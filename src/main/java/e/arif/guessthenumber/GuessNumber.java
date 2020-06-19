@@ -28,8 +28,8 @@ public class GuessNumber {
     public int getLower(){
         return this.lower;
     }
-    public int getUpper(){
-        return this.upper;
+    public int getUpper(){ 
+        return this.upper; 
     }
     public int getMaxGuesses(){
         return this.maxGuess;
@@ -40,8 +40,14 @@ public class GuessNumber {
     public void decrementGuessCounter(){
         guessCounter--;
     }
-    public int getGuessCounter(){
-        return this.guessCounter;
+    public int getGuessCounter(){ 
+        return this.guessCounter; 
+    }
+    public void isGameOver(){
+        gameOver = true;
+    }
+    public void isShownAnswer(){
+        showAnswer = true;
     }
     public String getInitialMsg(){
         String s = "Guess a number between " + lower + " and " + upper;
@@ -59,12 +65,6 @@ public class GuessNumber {
     public String getGuessLimitMsg(){
         String s = "You have " + guessCounter + " guesses left";
         return s;
-    }
-    public void isGameOver(){
-        gameOver = true;
-    }
-    public void isShownAnswer(){
-        showAnswer = true;
     }
     public void setLimit(){
         int num = answer;
