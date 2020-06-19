@@ -7,6 +7,11 @@ public class Message {
                 "Hit RESET Button to PLAY again!";
         return s;
     }
+    public String getAlreadyWonMsg(){
+        String s = "You have already won this game.\n" +
+                "Hit RESET Button to PLAY again!";
+        return s;
+    }
     public String getLowGuessMsg(){
         String s = "Your guess is too low! \n" +
                 "Try a bigger number.";
@@ -17,11 +22,11 @@ public class Message {
                 "Try a smaller number.";
         return s;
     }
-    public String getErrorNum(){
+    public String getErrorNumMsg(){
         String s = "Error: You did not enter any number!";
         return s;
     }
-    public String getErrorRange(){
+    public String getErrorRangeMsg(){
         String s = "Error: The number is out of range!";
         return s;
     }
