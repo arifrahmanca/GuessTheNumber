@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         setContentsOfTextView(R.id.scoreMsg, g.getScoreMsg());
     }
 
-    public void showAnswwerButtonClicked(View view) {
+    public void showAnswerButtonClicked(View view) {
         g.isShownAnswer();
         g.isGameOver();
         inputHistory.clear();
